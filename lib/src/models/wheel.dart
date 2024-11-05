@@ -7,6 +7,7 @@ import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 class Wheel extends Equatable {
   const Wheel({
     required this.items,
+    this.resultIndex,
     this.duration = const Duration(seconds: 10),
     this.isSpinByPriority = true,
     this.size,
@@ -23,6 +24,9 @@ class Wheel extends Equatable {
 
   ///List of lucky elements
   final List<Fortune> items;
+
+  /// Force to result
+  final int? resultIndex;
 
   ///Spin time
   final Duration duration;
@@ -63,6 +67,7 @@ class Wheel extends Equatable {
 
   Wheel copyWith({
     List<Fortune>? items,
+    int? resultIndex,
     Duration? duration,
     bool? isSpinByPriority,
     int? rotationCount,
@@ -77,6 +82,7 @@ class Wheel extends Equatable {
   }) {
     return Wheel(
       items: items ?? this.items,
+      resultIndex: resultIndex ?? this.resultIndex,
       duration: duration ?? this.duration,
       isSpinByPriority: isSpinByPriority ?? this.isSpinByPriority,
       rotationCount: rotationCount ?? this.rotationCount,
@@ -95,6 +101,7 @@ class Wheel extends Equatable {
   @override
   List<Object?> get props => [
         items,
+        resultIndex,
         duration,
         isSpinByPriority,
         rotationCount,

@@ -70,7 +70,7 @@ class BoardView extends StatelessWidget {
       height: size,
       width: size,
       alignment: Alignment.topCenter,
-      padding: const EdgeInsets.only(top: 16),
+      padding: const EdgeInsets.only(top: 18),
       child: ConstrainedBox(
         constraints: BoxConstraints.expand(height: size / 3, width: 54),
         child: Column(
@@ -117,8 +117,17 @@ class _BorderPainter extends CustomPainter {
     //Outer border
     Paint outlineBrush = Paint()
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 8.0
-      ..color = Colors.red;
+      ..strokeWidth = 20.0
+      ..shader = const RadialGradient(
+        colors: [
+          Color(0xFF2D0075),
+          Color(0xFF5E17B4),
+          Color(0xFFC46B8A),
+        ],
+        center: Alignment.center,
+        radius: 1.0,
+      ).createShader(Rect.fromCircle(center: center, radius: size.width / 2));
+
     Rect rect = Rect.fromCircle(center: center, radius: size.width / 2);
     Path pathFirst = Path()
       ..arcTo(rect, -math.pi / 2 - angle / 2, angle, false);
@@ -126,22 +135,22 @@ class _BorderPainter extends CustomPainter {
     //Second frame with white background
     Paint outlineBrushSecond = Paint()
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 6.0
+      ..strokeWidth = 5.0
       ..color = Colors.white;
     Rect rectSecond =
-        Rect.fromCircle(center: center, radius: size.width / 2 - 6);
+        Rect.fromCircle(center: center, radius: size.width / 2 + 10);
     Path pathSecond = Path()
       ..arcTo(rectSecond, -math.pi / 2 - angle / 2, angle, false);
 
     //LED lights
     Paint centerDot = Paint()
       ..style = PaintingStyle.fill
-      ..color = Colors.yellow
+      ..color = const Color(0xFFFE7479)
       ..strokeWidth = 4.0;
 
     Paint secondaryDot = Paint()
       ..style = PaintingStyle.fill
-      ..color = Colors.white
+      ..color = const Color(0xFFFFB57C)
       ..strokeWidth = 4.0;
 
     //Coordinates of the center of the circle

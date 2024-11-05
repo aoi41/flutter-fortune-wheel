@@ -5,6 +5,7 @@ import 'package:flutter_fortune_wheel/src/models/models.dart';
 import 'package:flutter_fortune_wheel/src/views/arrow_view.dart';
 import 'package:flutter_fortune_wheel/src/views/board_view.dart';
 import '../core/core.dart';
+import 'image_button.dart';
 
 class FortuneWheel extends StatefulWidget {
   const FortuneWheel({
@@ -85,9 +86,11 @@ class _FortuneWheelState extends State<FortuneWheel>
     final panFactor = 6 / meanSize;
     return PanAwareBuilder(
       physics: CircularPanPhysics(),
-      onFling: widget.wheel.isSpinByPriority
-          ? _handleSpinByPriorityPressed
-          : _handleSpinByRandomPressed,
+      onFling: widget.wheel.resultIndex != null && widget.wheel.resultIndex! >= 0 && widget.wheel.resultIndex! < widget.wheel.items.length ?
+          _handleSpinToTargetPressed :
+          (widget.wheel.isSpinByPriority
+            ? _handleSpinByPriorityPressed
+            : _handleSpinByRandomPressed),
       builder: (BuildContext context, PanState panState) {
         final panAngle = panState.distance * panFactor;
         return Stack(
@@ -148,19 +151,14 @@ class _FortuneWheelState extends State<FortuneWheel>
     return Visibility(
       visible: !_wheelAnimationController.isAnimating,
       child: widget.wheel.action ??
-          TextButton(
-            onPressed: widget.wheel.isSpinByPriority
+          ImageButton(
+            onTap: widget.wheel.resultIndex != null && widget.wheel.resultIndex! >= 0 && widget.wheel.resultIndex! < widget.wheel.items.length ?
+            _handleSpinToTargetPressed :
+            (widget.wheel.isSpinByPriority
                 ? _handleSpinByPriorityPressed
-                : _handleSpinByRandomPressed,
-            style: widget.wheel.spinButtonStyle ??
-                TextButton.styleFrom(
-                  backgroundColor: Colors.black.withOpacity(0.4),
-                ),
-            child: widget.wheel.childSpinButton ??
-                Text(
-                  widget.wheel.titleSpinButton ?? 'Click here to spin',
-                  style: const TextStyle(fontSize: 16, color: Colors.white),
-                ),
+                : _handleSpinByRandomPressed),
+            normalImage: 'assets/images/play_button.png',
+            pressedImage: 'assets/images/play_button.png'
           ),
     );
   }
@@ -205,6 +203,34 @@ class _FortuneWheelState extends State<FortuneWheel>
       } else {
         _indexResult = index;
       }
+
+      int itemCount = widget.wheel.items.length;
+
+      //Number of items to reach the result by index
+      int angleFactor = _currentIndex > _indexResult
+          ? _currentIndex - _indexResult
+          : itemCount - (_indexResult - _currentIndex);
+
+      //Calculate the rotation angle to the winning spin value
+      _angle = (2 * pi / itemCount) * angleFactor +
+          widget.wheel.rotationCount * 2 * pi;
+      await Future.microtask(() => widget.onAnimationStart?.call());
+      await _wheelAnimationController.forward(from: 0.0).then((_) {
+        double factor = _currentAngle / (2 * pi);
+        factor += (_angle / (2 * pi));
+        factor %= 1;
+        _currentAngle = factor * 2 * pi;
+        _wheelAnimationController.reset();
+        _currentIndex = _indexResult;
+        widget.onResult.call(widget.wheel.items[_indexResult]);
+      });
+      await Future.microtask(() => widget.onAnimationEnd?.call());
+    }
+  }
+
+  Future<void> _handleSpinToTargetPressed() async {
+    if (!_wheelAnimationController.isAnimating) {
+      _indexResult = widget.wheel.resultIndex ?? 0;
 
       int itemCount = widget.wheel.items.length;
 

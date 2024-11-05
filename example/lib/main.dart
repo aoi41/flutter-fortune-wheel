@@ -48,10 +48,11 @@ class _MyAppState extends State<MyApp> {
   late ConfettiController _confettiController;
 
   Wheel _wheel = Wheel(
-    // items: Constants.icons2,
+    items: Constants.icons2,
     // items: Constants.liXiNamMoi,
-    items: Constants.list12Item,
+    // items: Constants.list12Item,
     isSpinByPriority: true,
+    resultIndex: 0,
     duration: const Duration(seconds: 10),
   );
 

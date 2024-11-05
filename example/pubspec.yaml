@@ -59,6 +59,7 @@ flutter:
   assets:
     - assets/
     - assets/icons/fortune_wheel_icon.svg
+    - assets/images/play_button.png
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

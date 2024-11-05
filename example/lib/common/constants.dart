@@ -358,64 +358,96 @@ class Constants {
   static List<Fortune> icons2 = <Fortune>[
     const Fortune(
         id: 1,
-        backgroundColor: Colors.red,
+        backgroundColor: Color(0xFFE59FEB),
         titleName: 'favorite',
+        textStyle: TextStyle(
+          color: Color(0xFF32037B),
+          fontWeight: FontWeight.bold,
+        ),
         icon: Icon(
           Icons.favorite,
           color: Colors.white,
         )),
     const Fortune(
         id: 2,
-        backgroundColor: Colors.green,
+        backgroundColor: Color(0xFFE7C9F4),
         titleName: 'clock',
+        textStyle: TextStyle(
+          color: Color(0xFF32037B),
+          fontWeight: FontWeight.bold,
+        ),
         icon: Icon(
           Icons.lock_clock,
           color: Colors.white,
         )),
     const Fortune(
         id: 3,
-        backgroundColor: Colors.amber,
+        backgroundColor: Color(0xFFE59FEB),
         titleName: 'car',
+        textStyle: TextStyle(
+          color: Color(0xFF32037B),
+          fontWeight: FontWeight.bold,
+        ),
         icon: Icon(
           Icons.car_rental,
           color: Colors.white,
         )),
     const Fortune(
         id: 4,
-        backgroundColor: Colors.red,
+        backgroundColor: Color(0xFFE7C9F4),
         titleName: 'phone',
+        textStyle: TextStyle(
+          color: Color(0xFF32037B),
+          fontWeight: FontWeight.bold,
+        ),
         icon: Icon(
           Icons.phone_android_outlined,
           color: Colors.white,
         )),
     const Fortune(
         id: 5,
-        backgroundColor: Colors.green,
+        backgroundColor: Color(0xFFE59FEB),
         titleName: 'house',
+        textStyle: TextStyle(
+          color: Color(0xFF32037B),
+          fontWeight: FontWeight.bold,
+        ),
         icon: Icon(
           Icons.house_outlined,
           color: Colors.white,
         )),
     const Fortune(
         id: 6,
-        backgroundColor: Colors.amber,
+        backgroundColor: Color(0xFFE7C9F4),
         titleName: 'security',
+        textStyle: TextStyle(
+          color: Color(0xFF32037B),
+          fontWeight: FontWeight.bold,
+        ),
         icon: Icon(
           Icons.security,
           color: Colors.white,
         )),
     const Fortune(
         id: 7,
-        backgroundColor: Colors.red,
+        backgroundColor: Color(0xFFE59FEB),
         titleName: 'Micro',
+        textStyle: TextStyle(
+          color: Color(0xFF32037B),
+          fontWeight: FontWeight.bold,
+        ),
         icon: Icon(
           Icons.perm_camera_mic_sharp,
           color: Colors.white,
         )),
     const Fortune(
         id: 8,
-        backgroundColor: Colors.amber,
+        backgroundColor: Color(0xFFE7C9F4),
         titleName: 'Camera',
+        textStyle: TextStyle(
+          color: Color(0xFF32037B),
+          fontWeight: FontWeight.bold,
+        ),
         icon: Icon(
           Icons.camera_alt_outlined,
           color: Colors.white,
