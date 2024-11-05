@@ -8,23 +8,12 @@ class ArrowView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Transform.rotate(
-      angle: pi / 2,
-      child: ClipPath(
-        clipper: _ArrowClipper(),
-        child: Container(
-          height: 24,
-          width: 24,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.black12, Colors.black],
-            ),
-            boxShadow: [
-              BoxShadow(color: Colors.black38, blurRadius: 5),
-            ],
-          ),
-        ),
+      angle: 0,
+      child: Image.asset(
+        'packages/flutter_fortune_wheel/assets/images/arrow.png',
+        width: 40,
+        height: 40,
+        fit: BoxFit.fill,
       ),
     );
   }

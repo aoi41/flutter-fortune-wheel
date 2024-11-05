@@ -87,12 +87,13 @@ class BoardView extends StatelessWidget {
                       ),
                   minFontSize: 10,
                   maxFontSize: 20,
+                  textAlign: TextAlign.center,
                   overflow: TextOverflow.clip,
                 ),
               ),
             if (fortune.icon != null)
               Padding(
-                padding: EdgeInsets.all(fortune.titleName != null ? 8 : 0),
+                padding: EdgeInsets.all(fortune.titleName != null ? 4 : 0),
                 child: fortune.icon!,
               ),
           ],

@@ -131,7 +131,7 @@ class _FortuneWheelState extends State<FortuneWheel>
               height: wheelSize,
               width: wheelSize,
               child: Align(
-                alignment: const Alignment(1.08, 0),
+                alignment: const Alignment(0, -1.38),
                 child: widget.wheel.arrowView ?? const ArrowView(),
               ),
             ),
@@ -171,7 +171,7 @@ class _FortuneWheelState extends State<FortuneWheel>
       //random theo số phần tử
       int randomLength = Random().nextInt(widget.wheel.items.length);
       _angle =
-          (randomDouble + widget.wheel.rotationCount + randomLength) * 2 * pi;
+          (randomDouble + widget.wheel.rotationCount + randomLength) * 2 * pi - pi / 2;
       await Future.microtask(() => widget.onAnimationStart?.call());
       await _wheelAnimationController.forward(from: 0.0).then((_) {
         double factor = _currentAngle / (2 * pi);
@@ -188,7 +188,7 @@ class _FortuneWheelState extends State<FortuneWheel>
   ///Handling the calculation of the index value of the element while spinning
   int _getIndexFortune(double value) {
     int itemCount = widget.wheel.items.length;
-    double rightOffset = value - (pi / itemCount);
+    double rightOffset = value + pi / 2 - (pi / itemCount);
     return (itemCount - rightOffset / (2 * pi) * itemCount).floor() % itemCount;
   }
 
@@ -213,7 +213,7 @@ class _FortuneWheelState extends State<FortuneWheel>
 
       //Calculate the rotation angle to the winning spin value
       _angle = (2 * pi / itemCount) * angleFactor +
-          widget.wheel.rotationCount * 2 * pi;
+          widget.wheel.rotationCount * 2 * pi - pi / 2;
       await Future.microtask(() => widget.onAnimationStart?.call());
       await _wheelAnimationController.forward(from: 0.0).then((_) {
         double factor = _currentAngle / (2 * pi);
@@ -241,9 +241,9 @@ class _FortuneWheelState extends State<FortuneWheel>
 
       //Calculate the rotation angle to the winning spin value
       _angle = (2 * pi / itemCount) * angleFactor +
-          widget.wheel.rotationCount * 2 * pi;
+          widget.wheel.rotationCount * 2 * pi - pi / 2;
       await Future.microtask(() => widget.onAnimationStart?.call());
-      await _wheelAnimationController.forward(from: 0.0).then((_) {
+      await _wheelAnimationController.forward(from: 0).then((_) {
         double factor = _currentAngle / (2 * pi);
         factor += (_angle / (2 * pi));
         factor %= 1;
