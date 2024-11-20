@@ -4,12 +4,17 @@ class ImageButton extends StatefulWidget {
   final String normalImage; // Path to the normal image
   final String pressedImage; // Path to the pressed image
   final VoidCallback onTap; // Callback for tap event
+  final double? width;
+  final double? height;
+
 
   const ImageButton({
     Key? key,
     required this.normalImage,
     required this.pressedImage,
     required this.onTap,
+    this.width,
+    this.height
   }) : super(key: key);
 
   @override
@@ -53,8 +58,8 @@ class _ImageButtonState extends State<ImageButton> {
           borderRadius: BorderRadius.circular(12.0),
           child: Image.asset(
             _isPressed ? widget.pressedImage : widget.normalImage,
-            width: 60, // Set width as needed
-            height: 40, // Set height as needed
+            width: widget.width ?? 60, // Set width as needed
+            height: widget.height ?? 40, // Set height as needed
             fit: BoxFit.fill, // Cover the entire container
           ),
         ),
