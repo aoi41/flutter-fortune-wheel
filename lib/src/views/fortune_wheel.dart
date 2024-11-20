@@ -158,7 +158,7 @@ class _FortuneWheelState extends State<FortuneWheel>
                 ? _handleSpinByPriorityPressed
                 : _handleSpinByRandomPressed),
             normalImage: 'packages/flutter_fortune_wheel/assets/images/play_button.png',
-            pressedImage: 'packages/flutter_fortune_wheel/assets/images/play_button.png'
+            pressedImage: 'packages/flutter_fortune_wheel/assets/images/play_button_pressed.png'
           ),
     );
   }
