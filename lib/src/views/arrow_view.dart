@@ -1,19 +1,24 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_fortune_wheel/src/models/wheel_theme.dart';
 
 ///A widget indicator, which is arrow spin result
 class ArrowView extends StatelessWidget {
-  const ArrowView({Key? key}) : super(key: key);
+  final WheelTheme wheelTheme;
+  const ArrowView({Key? key, required this.wheelTheme}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Transform.rotate(
-      angle: 0,
-      child: Image.asset(
-        'packages/flutter_fortune_wheel/assets/images/arrow.png',
-        width: 40,
-        height: 40,
-        fit: BoxFit.fill,
+    return Align(
+      alignment: wheelTheme.arrowAlignment,
+      child: Transform.rotate(
+        angle: 0,
+        child: Image.asset(
+          wheelTheme.arrowImage,
+          width: wheelTheme.arrowSize,
+          height: wheelTheme.arrowSize,
+          fit: BoxFit.fill,
+        ),
       ),
     );
   }

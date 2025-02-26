@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fortune_wheel/src/helpers/helpers.dart';
 import 'package:flutter_fortune_wheel/src/models/models.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter_fortune_wheel/src/models/wheel_theme.dart';
 
 ///UI Wheel
 class BoardView extends StatelessWidget {
@@ -10,6 +11,7 @@ class BoardView extends StatelessWidget {
     Key? key,
     required this.items,
     required this.size,
+    required this.wheelTheme,
   }) : super(key: key);
 
   ///List of values for the wheel elements
@@ -17,6 +19,8 @@ class BoardView extends StatelessWidget {
 
   ///Size of the wheel
   final double size;
+
+  final WheelTheme wheelTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +57,7 @@ class BoardView extends StatelessWidget {
   Widget _buildCard(Fortune fortune) {
     double _angle = 2 * math.pi / items.length;
     return CustomPaint(
-      painter: _BorderPainter(_angle),
+      painter: _BorderPainter(_angle, wheelTheme,),
       child: ClipPath(
         clipper: _SlicesPath(_angle),
         child: Container(
@@ -106,8 +110,9 @@ class BoardView extends StatelessWidget {
 ///Wheel frame painter
 class _BorderPainter extends CustomPainter {
   final double angle;
+  final WheelTheme wheelTheme;
 
-  _BorderPainter(this.angle);
+  _BorderPainter(this.angle, this.wheelTheme,);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -119,15 +124,19 @@ class _BorderPainter extends CustomPainter {
     Paint outlineBrush = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 20.0
-      ..shader = const RadialGradient(
-        colors: [
-          Color(0xFF2D0075),
-          Color(0xFF5E17B4),
-          Color(0xFFC46B8A),
-        ],
-        center: Alignment.center,
-        radius: 1.0,
-      ).createShader(Rect.fromCircle(center: center, radius: size.width / 2));
+      ..shader = (wheelTheme.useRadialGradient
+          ? RadialGradient(
+              colors: wheelTheme.borderGradientColors,
+              stops: wheelTheme.gradientStops,
+              center: Alignment.center,
+              radius: 1.0,
+            )
+          : SweepGradient(
+              colors: wheelTheme.borderGradientColors,
+              stops: wheelTheme.gradientStops,
+              startAngle: 0,
+              endAngle: 2 * math.pi,
+            )).createShader(Rect.fromCircle(center: center, radius: size.width / 2));
 
     Rect rect = Rect.fromCircle(center: center, radius: size.width / 2);
     Path pathFirst = Path()
@@ -146,12 +155,12 @@ class _BorderPainter extends CustomPainter {
     //LED lights
     Paint centerDot = Paint()
       ..style = PaintingStyle.fill
-      ..color = const Color(0xFFFE7479)
+      ..color = wheelTheme.centerDotColor
       ..strokeWidth = 4.0;
 
     Paint secondaryDot = Paint()
       ..style = PaintingStyle.fill
-      ..color = const Color(0xFFFFB57C)
+      ..color = wheelTheme.secondaryDotColor
       ..strokeWidth = 4.0;
 
     //Coordinates of the center of the circle

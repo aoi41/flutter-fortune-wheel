@@ -4,6 +4,7 @@ import 'package:flutter_fortune_wheel/src/helpers/helpers.dart';
 import 'package:flutter_fortune_wheel/src/models/models.dart';
 import 'package:flutter_fortune_wheel/src/views/arrow_view.dart';
 import 'package:flutter_fortune_wheel/src/views/board_view.dart';
+import 'package:flutter_fortune_wheel/src/models/wheel_theme.dart';
 import '../core/core.dart';
 import 'image_button.dart';
 
@@ -15,10 +16,12 @@ class FortuneWheel extends StatefulWidget {
     required this.onResult,
     this.onAnimationStart,
     this.onAnimationEnd,
+    this.wheelTheme = WheelTheme.standard,
   }) : super(key: key);
 
   ///Configure wheel
   final Wheel wheel;
+  final WheelTheme wheelTheme;
 
   ///Handling updates of changed values while spinning
   final Function(Fortune item) onChanged;
@@ -101,6 +104,7 @@ class _FortuneWheelState extends State<FortuneWheel>
               child: BoardView(
                 items: widget.wheel.items,
                 size: wheelSize,
+                wheelTheme: widget.wheelTheme,
               ),
               builder: (context, child) {
                 ///Rotation angle of the wheel
@@ -131,8 +135,7 @@ class _FortuneWheelState extends State<FortuneWheel>
               height: wheelSize,
               width: wheelSize,
               child: Align(
-                alignment: const Alignment(0, -1.38),
-                child: widget.wheel.arrowView ?? const ArrowView(),
+                child: ArrowView(wheelTheme: widget.wheelTheme),
               ),
             ),
           ],
@@ -157,8 +160,8 @@ class _FortuneWheelState extends State<FortuneWheel>
             (widget.wheel.isSpinByPriority
                 ? _handleSpinByPriorityPressed
                 : _handleSpinByRandomPressed),
-            normalImage: 'packages/flutter_fortune_wheel/assets/images/play_button.png',
-            pressedImage: 'packages/flutter_fortune_wheel/assets/images/play_button_pressed.png'
+            normalImage: widget.wheelTheme.spinButtonImage,
+            pressedImage: widget.wheelTheme.spinButtonPressedImage,
           ),
     );
   }
