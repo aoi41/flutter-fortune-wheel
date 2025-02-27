@@ -57,7 +57,7 @@ class WheelTheme {
     spinButtonImage: 'packages/flutter_fortune_wheel/assets/images/play_button_upgraded.png',
     spinButtonPressedImage: 'packages/flutter_fortune_wheel/assets/images/play_button_upgraded_pressed.png',
     arrowImage: 'packages/flutter_fortune_wheel/assets/images/arrow_upgraded.png', 
-    arrowAlignment: Alignment(0, -1.25),
-    arrowSize: 50.0, 
+    arrowAlignment: Alignment(0, -0.25),
+    arrowSize: 30.0, 
   );
 }
