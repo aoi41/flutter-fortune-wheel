@@ -49,7 +49,7 @@ class WheelTheme {
   static const WheelTheme upgraded = WheelTheme(
     segmentColors: [Color(0xFFE59FEB), Color(0xFFE7C9F4)],
     borderGradientColors: [ Color(0xFFFF517E), Color(0xFFC235FC), Color(0xFFFF51B6)],
-    gradientStops: [0.0, 0.33, 0.67, 1.0],
+    gradientStops: [0.0, 0.5, 1.0],
     borderWidth: 25.0,
     useRadialGradient: false,
     centerDotColor: Color(0xFFF3D88D),
