@@ -151,6 +151,9 @@ class _FortuneWheelState extends State<FortuneWheel>
 
   ///UI Button Spin
   Widget _buildButtonSpin() {
+    bool isUpgradedTheme = widget.wheelTheme.spinButtonImage == 'packages/flutter_fortune_wheel/assets/images/play_button_upgraded.png';
+    double buttonWidth = isUpgradedTheme ? 80 : 60;
+    double buttonHeight = isUpgradedTheme ? 60 : 40; 
     return Visibility(
       visible: !_wheelAnimationController.isAnimating,
       child: widget.wheel.action ??
@@ -162,6 +165,8 @@ class _FortuneWheelState extends State<FortuneWheel>
                 : _handleSpinByRandomPressed),
             normalImage: widget.wheelTheme.spinButtonImage,
             pressedImage: widget.wheelTheme.spinButtonPressedImage,
+            width: buttonWidth,
+            height: buttonHeight,
           ),
     );
   }
