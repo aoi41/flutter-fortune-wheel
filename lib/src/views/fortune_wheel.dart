@@ -17,6 +17,7 @@ class FortuneWheel extends StatefulWidget {
     this.onAnimationStart,
     this.onAnimationEnd,
     this.wheelTheme = WheelTheme.standard,
+    this.isEnabled = true,
   }) : super(key: key);
 
   ///Configure wheel
@@ -34,6 +35,8 @@ class FortuneWheel extends StatefulWidget {
 
   ///Handling when spinning ends
   final VoidCallback? onAnimationEnd;
+
+  final bool isEnabled;
 
   @override
   _FortuneWheelState createState() => _FortuneWheelState();
@@ -89,7 +92,7 @@ class _FortuneWheelState extends State<FortuneWheel>
     final panFactor = 6 / meanSize;
     return PanAwareBuilder(
       physics: CircularPanPhysics(),
-      onFling: widget.wheel.resultIndex != null && widget.wheel.resultIndex! >= 0 && widget.wheel.resultIndex! < widget.wheel.items.length ?
+      onFling: !widget.isEnabled ? null : widget.wheel.resultIndex != null && widget.wheel.resultIndex! >= 0 && widget.wheel.resultIndex! < widget.wheel.items.length ?
           _handleSpinToTargetPressed :
           (widget.wheel.isSpinByPriority
             ? _handleSpinByPriorityPressed
@@ -173,6 +176,7 @@ class _FortuneWheelState extends State<FortuneWheel>
 
   ///Handling mode random spinning
   Future<void> _handleSpinByRandomPressed() async {
+    if (!widget.isEnabled) return;
     if (!_wheelAnimationController.isAnimating) {
       //Random hệ số thập phân từ 0 đến 1
       double randomDouble = Random().nextDouble();
@@ -202,6 +206,7 @@ class _FortuneWheelState extends State<FortuneWheel>
 
   ///Handling mode spinning based on prioritized winning values
   Future<void> _handleSpinByPriorityPressed() async {
+    if (!widget.isEnabled) return;
     if (!_wheelAnimationController.isAnimating) {
       final int randomIndex = Random().nextInt(_fortuneValuesByPriority.length);
       Fortune result = _fortuneValuesByPriority[randomIndex];
@@ -237,6 +242,7 @@ class _FortuneWheelState extends State<FortuneWheel>
   }
 
   Future<void> _handleSpinToTargetPressed() async {
+    if (!widget.isEnabled) return;
     if (!_wheelAnimationController.isAnimating) {
       _indexResult = widget.wheel.resultIndex ?? 0;
 
