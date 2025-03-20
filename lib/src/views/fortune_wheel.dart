@@ -16,8 +16,10 @@ class FortuneWheel extends StatefulWidget {
     required this.onResult,
     this.onAnimationStart,
     this.onAnimationEnd,
+    this.onPaymentRequest,
     this.wheelTheme = WheelTheme.standard,
     this.isEnabled = true,
+    this.isPaymentProcessed = false,
   }) : super(key: key);
 
   ///Configure wheel
@@ -36,7 +38,10 @@ class FortuneWheel extends StatefulWidget {
   ///Handling when spinning ends
   final VoidCallback? onAnimationEnd;
 
+  final VoidCallback? onPaymentRequest;
+
   final bool isEnabled;
+  final bool isPaymentProcessed;
 
   @override
   _FortuneWheelState createState() => _FortuneWheelState();
@@ -129,7 +134,7 @@ class _FortuneWheelState extends State<FortuneWheel>
                       child: child,
                     ),
                     _buildCenterOfWheel(),
-                    _buildButtonSpin(),
+                    _buildActionButton(),
                   ],
                 );
               },
@@ -172,6 +177,61 @@ class _FortuneWheelState extends State<FortuneWheel>
             height: buttonHeight,
           ),
     );
+  }
+
+  Widget _buildActionButton() {
+    bool isUpgradedTheme = widget.wheelTheme == WheelTheme.upgraded;
+    double buttonWidth = isUpgradedTheme ? 80 : 60;
+    double buttonHeight = isUpgradedTheme ? 60 : 40;
+    
+    // Hide button during animation
+    if (_wheelAnimationController.isAnimating) {
+      return SizedBox.shrink();
+    }
+    
+    // For upgraded theme with payment not processed
+    if (isUpgradedTheme && !widget.isPaymentProcessed) {
+      return ImageButton(
+        onTap: () {
+          // Trigger payment process in parent widget
+          if (widget.onPaymentRequest != null) {
+            widget.onPaymentRequest!();
+          }
+        },
+        normalImage: widget.wheelTheme.spinButtonImage,
+        pressedImage: widget.wheelTheme.spinButtonPressedImage,
+        width: buttonWidth,
+        height: buttonHeight,
+      );
+    } 
+    
+    // For standard theme or after payment is processed
+    return ImageButton(
+      onTap: _getSpinHandler()?? () {},
+      normalImage: isUpgradedTheme && widget.isPaymentProcessed
+          ? 'packages/flutter_fortune_wheel/assets/images/after_payment.png'
+          : widget.wheelTheme.spinButtonImage,
+      pressedImage: isUpgradedTheme && widget.isPaymentProcessed
+          ? 'packages/flutter_fortune_wheel/assets/images/after_payment_pressed.png'
+          : widget.wheelTheme.spinButtonPressedImage,
+      width: buttonWidth,
+      height: buttonHeight,
+    );
+  }
+
+  // Helper to get the appropriate spin handler
+  VoidCallback? _getSpinHandler() {
+    if (!widget.isEnabled) return null;
+    
+    if (widget.wheel.resultIndex != null && 
+        widget.wheel.resultIndex! >= 0 && 
+        widget.wheel.resultIndex! < widget.wheel.items.length) {
+      return _handleSpinToTargetPressed;
+    }
+    
+    return widget.wheel.isSpinByPriority
+        ? _handleSpinByPriorityPressed
+        : _handleSpinByRandomPressed;
   }
 
   ///Handling mode random spinning
