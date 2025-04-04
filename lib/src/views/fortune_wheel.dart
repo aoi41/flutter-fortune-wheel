@@ -100,12 +100,20 @@ class _FortuneWheelState extends State<FortuneWheel>
     return PanAwareBuilder(
       physics: widget.allowUserPan ? CircularPanPhysics() : NoPanPhysics(),
       onFling: widget.allowUserPan
-      ? null
-      : widget.isEnabled ? null : widget.wheel.resultIndex != null && widget.wheel.resultIndex! >= 0 && widget.wheel.resultIndex! < widget.wheel.items.length ?
-          _handleSpinToTargetPressed :
-          (widget.wheel.isSpinByPriority
-            ? _handleSpinByPriorityPressed
-            : _handleSpinByRandomPressed),
+        ? (
+            widget.isEnabled
+                ? (
+                    widget.wheel.resultIndex != null &&
+                            widget.wheel.resultIndex! >= 0 &&
+                            widget.wheel.resultIndex! < widget.wheel.items.length
+                        ? _handleSpinToTargetPressed
+                        : (widget.wheel.isSpinByPriority
+                            ? _handleSpinByPriorityPressed
+                            : _handleSpinByRandomPressed)
+                  )
+                : null
+          )
+        : null,
       builder: (BuildContext context, PanState panState) {
         final panAngle = panState.distance * panFactor;
         return Stack(
