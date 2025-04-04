@@ -9,6 +9,7 @@ import '../core/core.dart';
 import 'image_button.dart';
 
 class FortuneWheel extends StatefulWidget {
+  final bool allowUserPan;
   const FortuneWheel({
     Key? key,
     required this.wheel,
@@ -20,6 +21,7 @@ class FortuneWheel extends StatefulWidget {
     this.wheelTheme = WheelTheme.standard,
     this.isEnabled = true,
     this.isPaymentProcessed = false,
+    this.allowUserPan = true,
   }) : super(key: key);
 
   ///Configure wheel
@@ -96,8 +98,10 @@ class _FortuneWheelState extends State<FortuneWheel>
     final meanSize = (deviceSize.width + deviceSize.height) / 2;
     final panFactor = 6 / meanSize;
     return PanAwareBuilder(
-      physics: CircularPanPhysics(),
-      onFling: !widget.isEnabled ? null : widget.wheel.resultIndex != null && widget.wheel.resultIndex! >= 0 && widget.wheel.resultIndex! < widget.wheel.items.length ?
+      physics: widget.allowUserPan ? CircularPanPhysics() : NoPanPhysics(),
+      onFling: widget.allowUserPan
+      ? null
+      : widget.isEnabled ? null : widget.wheel.resultIndex != null && widget.wheel.resultIndex! >= 0 && widget.wheel.resultIndex! < widget.wheel.items.length ?
           _handleSpinToTargetPressed :
           (widget.wheel.isSpinByPriority
             ? _handleSpinByPriorityPressed
