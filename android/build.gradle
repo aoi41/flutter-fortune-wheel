@@ -25,6 +25,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
+    namespace "io.github.flutterfortune"
     compileSdkVersion 30
 
     compileOptions {
